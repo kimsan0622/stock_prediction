@@ -10,18 +10,18 @@ There are 13 subclasses (S, D, H, O, P, E, 8, 5, Q, T, X, B, A) in IEX_Message c
 ### IEX_Packet
 
 IEX_Packet class has three member function. The following table shows the description of member functions.
-|   function name           |   input   |   output          |   description |
-|   ---                     |   ---     |   ---             |   ---         |
-|**set_tp_header**          |byte array |-                  |This function parses the IEX packet from the byte array and automatically parses the messages which are included in the packet.|
-|**get_messages**           |-          |array of messages  |This function returns the messages which are parsed in the 'set_tp_header' function. |
-|**parse_and_get_messages** |byte array |array of messages  |This function is a simple combination of 'set_tp_header' and 'get_messages'. |
+|function name|input|output|description|
+|---|---|---|---|
+|**set_tp_header**|byte array |-|This function parses the IEX packet from the byte array and automatically parses the messages which are included in the packet.|
+|**get_messages**|-|array of messages|This function returns the messages which are parsed in the 'set_tp_header' function. |
+|**parse_and_get_messages**|byte array|array of messages|This function is a simple combination of 'set_tp_header' and 'get_messages'. |
 
 ### IEX_Message
 IEX_Message classes only have **export_json** function. If you init an appropriate Message object using byte array, it will automatically parser all the data, following the Message type.
-|   function name           |   input   |   output          |   description |
-|   ---                     |   ---     |   ---             |   ---         |
-|**__init__**               |byte array |-                  | init a packet using byte array according to a type of the packet |
-|**export_json**            |-          |json object        | export an information of the packet as json format. |
+|function name|input|output|description|
+|---|---|---|---|
+|**__init__**|byte array |-| init a packet using byte array according to a type of the packet|
+|**export_json**|-|json object| export an information of the packet as json format.|
 
 e.g.
 ```python
