@@ -1,0 +1,7 @@
+scapy
+pymongo
+tqdm
+
+beautifulsoup4
+selenium
+html5lib
