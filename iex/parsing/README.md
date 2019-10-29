@@ -63,7 +63,6 @@ It supports 4 functions for querying data.
 |**__init__**|host, port, db_name, db_user, db_pass|MongoDB_Manager object| host, port: address and port of the mongoDB server, db_name: a name of the database, db_user, db_pass: user name and password who has permissionto modify the database. |
 |**drop_collection**|collection|-|drop collection|
 |**insert_one**|collection, document|document id|insert one document|
-||
 |**find_by_datetime**|collection, start_date, end_date |a cursor of query result|find messages using date. (e.g. from 2015-03-24 to 2017-03-24)|
 |**find_by_datetime_message_types**|start_date, end_date, msg_types|a cursor of query result|find messages using date and message type. (e.g. from 2015-03-24 to 2017-03-24 & message type: ['T', '8', '5']) |
 |**find_by_datetime_symbol**|collection, start_date, end_date, symbol|a cursor of query result|find messages using date and symbol. (e.g. from 2015-03-24 to 2017-03-24 & symbol: NVDA (nvidia nasdaq symbol))|
