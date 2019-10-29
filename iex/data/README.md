@@ -10,6 +10,7 @@ After that, install [**requirements.txt**](../requirements.txt) if you didn't in
 ```
 
 description of [**download_raw_files.py**](./download_raw_files.py).
+
 | `argument name` | `description` |
 | --- | --- |
 | **--chrome_driver_path** | path to directory that chrome driver is included. |

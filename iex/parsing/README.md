@@ -11,6 +11,7 @@ There are 13 subclasses (**S, D, H, O, P, E, 8, 5, Q, T, X, B, A**) in IEX_Messa
 ### IEX_Packet
 
 IEX_Packet class has three member function. The following table shows the description of member functions.
+
 | `function name` | `input` | `output` | `description` |
 | --- | --- | --- | --- |
 | **set_tp_header** | byte array | - | This function parses the IEX packet from the byte array and automatically parses the messages which are included in the packet. |
@@ -20,6 +21,7 @@ IEX_Packet class has three member function. The following table shows the descri
 ### IEX_Message
 
 IEX_Message classes only have **export_json** function. If you init an appropriate Message object using byte array, it will automatically parser all the data, following the Message type.
+
 | `function name` | `input` | `output` | `description` |
 | --- | --- | --- | --- |
 | **__init__** | byte array | - | init a packet using byte array according to a type of the packet. |
@@ -63,6 +65,7 @@ e.g.
 
 MongoDB_Manager class supports some queries which are useful to take IEX message data from MongoDB.
 It supports 4 functions for querying data.
+
 | `function name` | `input` | `output` | `description` |
 | --- | --- | --- | --- |
 | **__init__** | host, port, db_name, db_user, db_pass | MongoDB_Manager object | host, port: address and port of the mongoDB server, db_name: a name of the database, db_user, db_pass: user name and password who has permissionto modify the database. |
