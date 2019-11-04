@@ -88,11 +88,12 @@ class IEX_Message(object):
     def __str__(self):
         return 'Message Type: {0}\nTimestamp: {1}\n'.format(chr(self.message_type), datetime.utcfromtimestamp(self.time_stamp/1e9).strftime('%Y-%m-%d %H:%M:%S')+'.'+str(int(self.time_stamp%1e9)))
     
-    def export_json(self):
+    def export_json(self, with_str=False):
         iex_msg = dict()
         iex_msg['message_type'] = chr(self.message_type)
         iex_msg['time_stamp'] = self.time_stamp/1e9
-        iex_msg['time_stamp_str'] = datetime.utcfromtimestamp(self.time_stamp/1e9).strftime('%Y-%m-%d %H:%M:%S')+'.'+str(int(self.time_stamp%1e9))
+        if with_str:
+            iex_msg['time_stamp_str'] = datetime.utcfromtimestamp(self.time_stamp/1e9).strftime('%Y-%m-%d %H:%M:%S')+'.'+str(int(self.time_stamp%1e9))
         return iex_msg
 
 
@@ -144,10 +145,11 @@ class IEX_SystemEventMsg(IEX_Message):
         else:
             return ''
     
-    def export_json(self):
+    def export_json(self, with_str=False):
         iex_msg = super(IEX_SystemEventMsg, self).export_json()
         iex_msg['system_event'] = chr(self.system_event)
-        iex_msg['system_event_str'] = self._get_system_event_str()
+        if with_str:
+            iex_msg['system_event_str'] = self._get_system_event_str()
         return iex_msg
 
 '''
@@ -206,12 +208,13 @@ class IEX_SecurityDerectoryMsg(IEX_Message):
         E = (self.flags & ord('\x20')) == ord('\x20') # ETP Flag
         return (T, W, E)
     
-    def export_json(self):
+    def export_json(self, with_str=False):
         iex_msg = super(IEX_SecurityDerectoryMsg, self).export_json()
         iex_msg['symbol'] = self.symbol.decode("utf-8").strip()
 
         iex_msg['flags'] = self.flags
-        iex_msg['flags_str'] = self._get_flags_str()
+        if with_str:
+            iex_msg['flags_str'] = self._get_flags_str()
         iex_msg['T'], iex_msg['W'], iex_msg['E'] = self._parse_flags()
         iex_msg['round_lot_size'] = self.round_lot_size
         iex_msg['adjusted_POC_price'] = self.adjusted_POC_price/1e4
@@ -289,12 +292,13 @@ class IEX_TradingStatusMsg(IEX_Message):
         else:
             return ''
 
-    def export_json(self):
+    def export_json(self, with_str=False):
         iex_msg = super(IEX_TradingStatusMsg, self).export_json()
         iex_msg['symbol'] = self.symbol.decode("utf-8").strip()
 
         iex_msg['trading_status'] = chr(self.trading_status)
-        iex_msg['trading_status_str'] = self._get_trading_status_str()
+        if with_str:
+            iex_msg['trading_status_str'] = self._get_trading_status_str()
         iex_msg['reason'] = str(self.reason)
         return iex_msg
 
@@ -340,12 +344,13 @@ class IEX_OperationalHaltStatusMsg(IEX_Message):
         else:
             return ''
     
-    def export_json(self):
+    def export_json(self, with_str=False):
         iex_msg = super(IEX_OperationalHaltStatusMsg, self).export_json()
         iex_msg['symbol'] = self.symbol.decode("utf-8").strip()
 
         iex_msg['operational_halt_status'] = chr(self.operational_halt_status)
-        iex_msg['operational_halt_status_str'] = self._get_operational_halt_status_str()
+        if with_str:
+            iex_msg['operational_halt_status_str'] = self._get_operational_halt_status_str()
         return iex_msg
 
 '''
@@ -409,14 +414,15 @@ class IEX_ShortSalePriceTestStatusMsg(IEX_Message):
         else:
             return ''
     
-    def export_json(self):
+    def export_json(self, with_str=False):
         iex_msg = super(IEX_ShortSalePriceTestStatusMsg, self).export_json()
         iex_msg['symbol'] = self.symbol.decode("utf-8").strip()
 
         iex_msg['short_sale_price_test_status'] = self.short_sale_price_test_status
-        iex_msg['short_sale_price_test_status_str'] = self._get_short_sale_price_test_status_str()
         iex_msg['detail'] = chr(self.detail)
-        iex_msg['detail_str'] = self._get_detail_str()
+        if with_str:
+            iex_msg['short_sale_price_test_status_str'] = self._get_short_sale_price_test_status_str()
+            iex_msg['detail_str'] = self._get_detail_str()
         return iex_msg
 
 '''
@@ -459,12 +465,13 @@ class IEX_SecurityEventMsg(IEX_Message):
         else:
             return ''
     
-    def export_json(self):
+    def export_json(self, with_str=False):
         iex_msg = super(IEX_SecurityEventMsg, self).export_json()
         iex_msg['symbol'] = self.symbol.decode("utf-8").strip()
 
         iex_msg['security_event'] = chr(self.security_event)
-        iex_msg['security_event_str'] = self._get_security_event_str()
+        if with_str:
+            iex_msg['security_event_str'] = self._get_security_event_str()
         return iex_msg
 
 '''
@@ -516,15 +523,16 @@ class IEX_PriceLevelUpdateMsg(IEX_Message):
         else:
             return ''
     
-    def export_json(self):
+    def export_json(self, with_str=False):
         iex_msg = super(IEX_PriceLevelUpdateMsg, self).export_json()
         iex_msg['symbol'] = self.symbol.decode("utf-8").strip()
 
-        iex_msg['message_type_str'] = self._get_message_type_str()
         iex_msg['event_falgs'] = self.event_falgs
-        iex_msg['event_flag_str'] = self._get_event_flags_str()
         iex_msg['size'] = self.size
         iex_msg['price'] = self.price/1e4
+        if with_str:
+            iex_msg['message_type_str'] = self._get_message_type_str()
+            iex_msg['event_flag_str'] = self._get_event_flags_str()
         return iex_msg
 
 
@@ -558,7 +566,7 @@ class IEX_QuoteUpdateMsg(IEX_Message):
         self.symbol, self.bid_size, self.bid_price, self.ask_price, self.ask_size = unpack('<8s1I2q1I', bytearr[10:])
     
     def __str__(self):
-        return super(IEX_QuoteUpdateMsg, self).__str__() + 'Type: {0}\nSymbol: {1}\nFlags:\n{6}\nbid\n\tprice: {2}$\n\tsize: {3}\ask\n\tprice: {4}$\n\tsize: {5}\n'.format('Quote Update Message', str(self.symbol), self.bid_price/1e4, self.bid_size, self.ask_price/1e4, self.ask_size, self._get_flags_str())
+        return super(IEX_QuoteUpdateMsg, self).__str__() + 'Type: {0}\nSymbol: {1}\nFlags:\n{6}\nbid\n\tprice: {2}$\n\tsize: {3}\nask\n\tprice: {4}$\n\tsize: {5}\n'.format('Quote Update Message', str(self.symbol), self.bid_price/1e4, self.bid_size, self.ask_price/1e4, self.ask_size, self._get_flags_str())
     
     def _parse_flags(self):
         A = (self.flags & ord('\x80')) == ord('\x80') # Symbol Availability Flag
@@ -569,17 +577,18 @@ class IEX_QuoteUpdateMsg(IEX_Message):
         A, P = self._parse_flags()
         return '\tSymbol Availability: {0}\n\tMarket Session: {1}'.format('Symbol is halted, paused, or otherwise not available for trading on IEX' if A else 'Symbol is active (available for trading)', 'Pre/Post-Market Session' if P else 'Regular Market Session')
     
-    def export_json(self):
+    def export_json(self, with_str=False):
         iex_msg = super(IEX_QuoteUpdateMsg, self).export_json()
         iex_msg['symbol'] = self.symbol.decode("utf-8").strip()
 
         iex_msg['flags'] = self.flags
-        iex_msg['flags_str'] = self._get_flags_str()
         iex_msg['A'], iex_msg['P'] = self._parse_flags()
         iex_msg['bid_size'] = self.bid_size
         iex_msg['bid_price'] = self.bid_price/1e4
         iex_msg['ask_size'] = self.ask_size
         iex_msg['ask_price'] = self.ask_price/1e4
+        if with_str:
+            iex_msg['flags_str'] = self._get_flags_str()
         return iex_msg
     
     
@@ -628,12 +637,13 @@ class IEX_TradeReportMsg(IEX_Message):
         F, T, I, TTE, X = self._parse_sale_condition_flags()
         return '{0}, {1}, {2}, {3}, {4}'.format('Intermarket Sweep Order' if F else 'Non-Intermarket Sweep Order', 'Extended Hours Trade' if T else 'Regular Market Session Trade', 'Odd Lot Trade' if I else 'Round or Mixed Lot Trade', 'Trade is not subject to Rule 611 (Trade Through) of SEC Reg. NMS*' if TTE else 'Trade is subject to Rule 611 (Trade Through) of SEC Reg. NMS', 'Trade resulting from a single-price cross' if X else 'Execution during continuous trading')
     
-    def export_json(self):
+    def export_json(self, with_str=False):
         iex_msg = super(IEX_TradeReportMsg, self).export_json()
         iex_msg['symbol'] = self.symbol.decode("utf-8").strip()
 
         iex_msg['sale_condition_flags'] = self.sale_condition_flags
-        iex_msg['sale_condition_flags_str'] = self._get_sale_condition_flags_str()
+        if with_str:
+            iex_msg['sale_condition_flags_str'] = self._get_sale_condition_flags_str()
         iex_msg['F'], iex_msg['T'], iex_msg['I'], iex_msg['8'], iex_msg['X'] = self._parse_sale_condition_flags()
         iex_msg['size'] = self.size
         iex_msg['price'] = self.price/1e4
@@ -677,12 +687,13 @@ class IEX_OfficialPriceMsg(IEX_Message):
         else:
             return ''
     
-    def export_json(self):
+    def export_json(self, with_str=False):
         iex_msg = super(IEX_OfficialPriceMsg, self).export_json()
         iex_msg['symbol'] = self.symbol.decode("utf-8").strip()
 
         iex_msg['price_type'] = chr(self.price_type)
-        iex_msg['price_type_str'] = self._get_price_type_str()
+        if with_str:
+            iex_msg['price_type_str'] = self._get_price_type_str()
         iex_msg['official_price'] = self.official_price/1e4
         return iex_msg
 
@@ -731,12 +742,13 @@ class IEX_TradeBreakMsg(IEX_Message):
         F, T, I, TTE, X = self._parse_sale_condition_flags()
         return '{0}, {1}, {2}, {3}, {4}'.format('Intermarket Sweep Order' if F else 'Non-Intermarket Sweep Order', 'Extended Hours Trade' if T else 'Regular Market Session Trade', 'Odd Lot Trade' if I else 'Round or Mixed Lot Trade', 'Trade is not subject to Rule 611 (Trade Through) of SEC Reg. NMS*' if TTE else 'Trade is subject to Rule 611 (Trade Through) of SEC Reg. NMS', 'Trade resulting from a single-price cross' if X else 'Execution during continuous trading')
     
-    def export_json(self):
+    def export_json(self, with_str=False):
         iex_msg = super(IEX_TradeBreakMsg, self).export_json()
         iex_msg['symbol'] = self.symbol.decode("utf-8").strip()
 
         iex_msg['sale_condition_flags'] = self.sale_condition_flags
-        iex_msg['sale_condition_flags_str'] = self._get_sale_condition_flags_str()
+        if with_str:
+            iex_msg['sale_condition_flags_str'] = self._get_sale_condition_flags_str()
         iex_msg['F'], iex_msg['T'], iex_msg['I'], iex_msg['8'], iex_msg['X'] = self._parse_sale_condition_flags()
         iex_msg['size'] = self.size
         iex_msg['price'] = self.price/1e4
@@ -801,13 +813,11 @@ class IEX_AuctionInformationMsg(IEX_Message):
         else:
             return ''
     
-    def export_json(self):
+    def export_json(self, with_str=False):
         iex_msg = super(IEX_AuctionInformationMsg, self).export_json()
         iex_msg['symbol'] = self.symbol.decode("utf-8").strip()
 
         iex_msg['auction_type'] = chr(self.auction_type)
-        iex_msg['auction_type_str'] = self._get_auction_type_str()
-
         iex_msg['paired_shares'] = self.paired_shares
         iex_msg['reference_price'] = self.reference_price/1e4
         iex_msg['indicative_clearing_price'] = self.indicative_clearing_price/1e4
@@ -815,20 +825,24 @@ class IEX_AuctionInformationMsg(IEX_Message):
         iex_msg['imbalance_side'] = chr(self.imbalance_side)
         iex_msg['extension_number'] = self.extension_number
         iex_msg['scheduled_auction_time'] = self.scheduled_auction_time
-        iex_msg['scheduled_auction_time_str'] = datetime.utcfromtimestamp(self.scheduled_auction_time).strftime('%Y-%m-%d %H:%M:%S')
         iex_msg['auction_book_clearing_price'] = self.auction_book_clearing_price/1e4
         iex_msg['collar_reference_price'] = self.collar_reference_price/1e4
         iex_msg['lower_auction_collar'] = self.lower_auction_collar/1e4
         iex_msg['upper_acution_collar'] = self.upper_auction_collar/1e4
+
+        if with_str:
+            iex_msg['auction_type_str'] = self._get_auction_type_str()
+            iex_msg['scheduled_auction_time_str'] = datetime.utcfromtimestamp(self.scheduled_auction_time).strftime('%Y-%m-%d %H:%M:%S')
+
         return iex_msg
 
 
 if __name__ == "__main__":
     from scapy.all import rdpcap, PcapReader
 
-    #filename = '../data/test/tops/20180127_IEXTP1_TOPS1.6.pcap'
-    filename = '../data/test/deep/20180127_IEXTP1_DEEP1.0.pcap'
-    #filename = '../data/raw_data/tops/data_feeds_20161212_20161212_IEXTP1_TOPS1.5.pcap'
+    filename = '../data/test/tops/20180127_IEXTP1_TOPS1.6.pcap'
+    #filename = '../data/test/deep/20180127_IEXTP1_DEEP1.0.pcap'
+    #filename = '../data/raw_data/tops/2016-12-13_TOPS_v1.5.pcap'
 
     obj = IEX_Packet()
 

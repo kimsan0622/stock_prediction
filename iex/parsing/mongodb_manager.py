@@ -1,11 +1,15 @@
 # docker pull mongo
-# docker run -d --name mongodb-test -p 27017:27017 -v /home/san/backup/workspace/stock_prediction/iex/data/mongodb:/data/db -d mongo
+# docker run -d --name iex_mongo -p 27017:27017 -v /home/san/nfs/stock_data/mongodb:/data/db -d mongo
+# docker exec -it iex_mongo /bin/bash
+# mongo
+# use admin
 # db.createUser({user:"admin",pwd:"admin",roles:[{role:"userAdminAnyDatabase",db:"admin"}]})
 
-# docker run -d --name mongodb-test -p 27017:27017 -v /home/san/backup/workspace/stock_prediction/iex/data/mongodb:/data/db -d mongo -auth
+# docker run -d --name iex_mongo -p 27017:27017 -v /home/san/nfs/stock_data/mongodb:/data/db -d mongo -auth
+# docker exec -it iex_mongo /bin/bash
 # mongo -u "admin" -p "admin" -authenticationDatabase "admin"
 # use iex_data
-# db.createUser({user:"iex_client", pwd:"1234", roles:["adAdmin", "readWrite"]})
+# db.createUser({user:"iex_client", pwd:"1234", roles:["dbAdmin", "readWrite"]})
 
 import datetime
 import calendar
@@ -26,6 +30,9 @@ class MongoDB_Manager(object):
     
     def insert_one(self, collection, doc):
         return self.db[collection].insert_one(doc).inserted_id
+    
+    def insert_many(self, collection, docs):
+        return self.db[collection].insert_many(docs)
     
     def find_by_datetime(self, collection, start_date, end_date):
         start_ts = calendar.timegm(start_date.timetuple())

@@ -123,9 +123,9 @@ Please use [**update_db.py**](./update_db.py) to update user database.
 Usage
 
 ```bash
-    python update_db.py -i {file path [with or without wildcard charectors]} \
+    python update_db.py -i {file path [with or without wildcard charectors]} [-dc: drop collection] \
         -c {name of collection} -a {address of mongoDB host} -p {port of mongoDB host} \
-        -db {name of data base} -u {user name who has permission} -pw {password of user}
+        -db {name of data base} -u {user name who has permission} -pw {password of user} -ibs {insert batch size}
 ```
 
 e.g. Let's assume that your mongDB server hasn't messages which are generated in 2019-10-24 and you want to add it to 'tops' collection which is included in your database.
@@ -133,5 +133,5 @@ If so, you can add it like below.
 
 ```bash
     python update_db.py -i 2019-10-24_TOPS_v1.6.pcap -c 'tops' \
-        -a '127.0.0.1' -p 27017 -db 'iex_data' -u 'iex_client' -pw '1234'
+        -a '127.0.0.1' -p 27017 -db 'iex_data' -u 'iex_client' -pw '1234' -ibs 50000
 ```
