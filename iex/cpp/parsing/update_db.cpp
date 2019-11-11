@@ -291,7 +291,7 @@ int main(int argc, char* argv[])
     }
 
     if (verbose_mode == "true"){
-        printf("elapsed time: %d sec", sec_cnt);
+        printf("elapsed time: %d sec\n", sec_cnt);
     }
     reader.close();
 
